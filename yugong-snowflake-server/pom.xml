@@ -10,33 +10,53 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>yugong-snowflake-server</artifactId>
+    <packaging>jar</packaging>
 
     <properties>
-        <!-- 指定 java 版本 -->
-        <java.version>1.8</java.version>
-        <!-- 指定编译器版本 -->
-        <maven.compiler.compilerVersion>1.8</maven.compiler.compilerVersion>
-        <!-- 指定 java 源码版本，即 javac 的 -source 参数 -->
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <!-- 指定生成字节码的版本，即 javac 的 -target 参数 -->
-        <maven.compiler.target>1.8</maven.compiler.target>
-        <!-- 指定源代码的编码 -->
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-
         <!-- 该模块禁止 install 到本地 maven 仓库 -->
         <maven.install.skip>true</maven.install.skip>
         <!-- 该模块禁止部署到远程 maven 仓库 -->
         <maven.deploy.skip>true</maven.deploy.skip>
 
         <springboot.version>2.1.4.RELEASE</springboot.version>
-        <log4j.version>2.11.1</log4j.version>
+        <log4j.version>2.11.2</log4j.version>
+        <dubbo.version>2.7.4.1</dubbo.version>
     </properties>
 
+    <dependencyManagement>
+        <dependencies>
+            <!-- Spring Boot -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>${springboot.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <!-- Apache Dubbo  -->
+            <dependency>
+                <groupId>org.apache.dubbo</groupId>
+                <artifactId>dubbo-dependencies-bom</artifactId>
+                <version>${dubbo.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+        </dependencies>
+    </dependencyManagement>
+
     <dependencies>
+
+        <dependency>
+            <groupId>org.yugong</groupId>
+            <artifactId>yugong-snowflake-api</artifactId>
+            <version>0.0.0.1</version>
+        </dependency>
+
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>4.12</version>
             <scope>test</scope>
         </dependency>
 
@@ -55,6 +75,17 @@
             <artifactId>curator-recipes</artifactId>
             <version>4.2.0</version>
         </dependency>
+        <dependency>
+            <groupId>org.apache.zookeeper</groupId>
+            <artifactId>zookeeper</artifactId>
+            <version>3.5.5</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-log4j12</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -69,12 +100,17 @@
             </exclusions>
         </dependency>
 
-
         <!-- 使用 log4j2 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-log4j2</artifactId>
             <version>${springboot.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>jul-to-slf4j</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <dependency>
@@ -85,11 +121,6 @@
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-core</artifactId>
-            <version>${log4j.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-web</artifactId>
             <version>${log4j.version}</version>
         </dependency>
         <!-- slf4j 支持 -->
@@ -118,19 +149,39 @@
         </dependency>
 
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-configuration-processor</artifactId>
-            <version>${springboot.version}</version>
-            <optional>true</optional>
-        </dependency>
-
-        <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-text</artifactId>
             <version>1.8</version>
         </dependency>
 
+        <!-- Dubbo Spring Boot Starter -->
+        <dependency>
+            <groupId>org.apache.dubbo</groupId>
+            <artifactId>dubbo-spring-boot-starter</artifactId>
+            <version>2.7.4.1</version>
+        </dependency>
+
     </dependencies>
 
+    <build>
+        <finalName>yugong-snowflake-server</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <fork>true</fork>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <!-- 生成可执行 jar 包 -->
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>

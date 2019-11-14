@@ -13,11 +13,11 @@ import java.util.Date;
  */
 public class ZookeeperSnowflakeTest {
 
-    private ZookeeperSnowflake zookeeperSnowflake;
+    private ZookeeperSnowflakeIdGenerator zookeeperSnowflake;
 
     @Before
     public void setUp() throws Exception {
-        zookeeperSnowflake = new ZookeeperSnowflake(10, 12, 0, "127.0.0.1:2181", "snowflake");
+        zookeeperSnowflake = new ZookeeperSnowflakeIdGenerator(10, 12, 0, "127.0.0.1:2181", "snowflake");
     }
 
     @After

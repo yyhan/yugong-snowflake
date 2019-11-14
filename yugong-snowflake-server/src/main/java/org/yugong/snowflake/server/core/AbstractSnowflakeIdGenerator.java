@@ -9,7 +9,7 @@ import org.slf4j.LoggerFactory;
  * @author 小天
  * @date 2019/11/12 20:56
  */
-public abstract class AbstractSnowflake implements IdGenerator {
+public abstract class AbstractSnowflakeIdGenerator {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -73,26 +73,26 @@ public abstract class AbstractSnowflake implements IdGenerator {
      */
     private long lastMillis = -1L;
 
-    public AbstractSnowflake() {
+    public AbstractSnowflakeIdGenerator() {
     }
 
-    public AbstractSnowflake(long dataCenterId, long machineId) {
+    public AbstractSnowflakeIdGenerator(long dataCenterId, long machineId) {
         init(5, 5, 12, 0, dataCenterId, machineId);
     }
 
     public void init(long dataCenterIdBitNumbers, long machineIdBitNumbers, long sequenceBitNumbers, long startTimeMillis, long dataCenterId, long machineId) {
         if ((TIMESTAMP_LEFT = dataCenterIdBitNumbers + machineIdBitNumbers + sequenceBitNumbers) > 22) {
-            throw new IllegalArgumentException("(dataCenterIdBit + machineIdBit + sequenceBit) can't be greater than 22");
+            throw new IllegalArgumentException("(dataCenterIdBitNumbers + machineIdBitNumbers + sequenceBitNumbers) can't be greater than 22");
         }
         MAX_DATA_CENTER_NUM = ~(-1L << dataCenterIdBitNumbers);
         MAX_MACHINE_NUM = ~(-1L << machineIdBitNumbers);
         MAX_SEQUENCE = ~(-1L << sequenceBitNumbers);
 
         if (dataCenterId > MAX_DATA_CENTER_NUM || dataCenterId < 0) {
-            throw new IllegalArgumentException("dataCenterId can't be greater than MAX_DATA_CENTER_NUM or less than 0");
+            throw new IllegalArgumentException("dataCenterId can't be greater than " + MAX_DATA_CENTER_NUM + " or less than 0");
         }
         if (machineId > MAX_MACHINE_NUM || machineId < 0) {
-            throw new IllegalArgumentException("machineId can't be greater than MAX_MACHINE_NUM or less than 0");
+            throw new IllegalArgumentException("machineId can't be greater than " + MAX_MACHINE_NUM + " or less than 0");
         }
 
         this.dataCenterIdBitNumbers = dataCenterIdBitNumbers;
@@ -116,7 +116,6 @@ public abstract class AbstractSnowflake implements IdGenerator {
     /**
      * 产生下一个ID
      */
-    @Override
     public long newId() {
         synchronized (this) {
             long currentMillis = nowMillis();
@@ -164,5 +163,37 @@ public abstract class AbstractSnowflake implements IdGenerator {
      */
     private long nowMillis() {
         return System.currentTimeMillis();
+    }
+
+    public long getStartTimeMillis() {
+        return startTimeMillis;
+    }
+
+    public long getDataCenterIdBitNumbers() {
+        return dataCenterIdBitNumbers;
+    }
+
+    public long getMachineIdBitNumbers() {
+        return machineIdBitNumbers;
+    }
+
+    public long getSequenceBitNumbers() {
+        return sequenceBitNumbers;
+    }
+
+    public long getDataCenterId() {
+        return dataCenterId;
+    }
+
+    public long getMachineId() {
+        return machineId;
+    }
+
+    public long getSequence() {
+        return sequence;
+    }
+
+    public long getLastMillis() {
+        return lastMillis;
     }
 }

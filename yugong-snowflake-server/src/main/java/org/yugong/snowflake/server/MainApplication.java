@@ -27,15 +27,7 @@ public class MainApplication implements CommandLineRunner, ApplicationListener<C
 
     @Override
     public void run(String... args) throws Exception {
-//        Logger logger = LoggerFactory.getLogger(getClass());
-//
-//        logger.info("iot-server-broker 启动成功");
-//        logger.info("port:\t{}", brokerConfig.getPort());
-//        logger.info("bossThreadNum:\t{}", brokerConfig.getBossThreadNum());
-//        logger.info("workThreadNum:\t{}", brokerConfig.getWorkThreadNum());
-//
-//        brokerServer.start();
-//
-//        logger.info("iot-server-broker 关闭");
+        Logger logger = LoggerFactory.getLogger(getClass());
+        logger.info("YuGong Snowflake 服务启动成功");
     }
 }
