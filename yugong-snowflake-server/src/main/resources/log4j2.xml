@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="info" packages="com.orange.commons.support.log4j2" verbose="true">
+    <Properties>
+        <Property name="logCharset">UTF-8</Property>
+    </Properties>
+    <Appenders>
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="%traceId %d{yyyy-MM-dd HH:mm:ss,SSS} [%t] %-5p %l - %m%n" />
+        </Console>
+        <Console name="mainAppender" target="SYSTEM_OUT">
+            <PatternLayout pattern="%traceId %d{yyyy-MM-dd HH:mm:ss,SSS} [%t] %-5p %l - %m%n" />
+        </Console>
+        <Console name="SqlAppender" target="SYSTEM_OUT">
+            <PatternLayout pattern="%traceId %d{yyyy-MM-dd HH:mm:ss,SSS} [%t] %-5p %logger - %m%n" />
+        </Console>
+        <Console name="performanceAppender" target="SYSTEM_OUT">
+            <PatternLayout pattern="%traceId %d{yyyy-MM-dd HH:mm:ss,SSS} [%t] %l - %m%n" />
+        </Console>
+        <Console name="newPerformanceAppender" target="SYSTEM_OUT">
+            <PatternLayout pattern="%traceId %d{yyyy-MM-dd HH:mm:ss,SSS} [%t] %logger - %m%n" />
+        </Console>
+        <Console name="traceIdAppender" target="SYSTEM_OUT">
+            <PatternLayout pattern="%traceId %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %-5p %logger - %msg%n" />
+        </Console>
+        <Console name="monitorAppender" target="SYSTEM_OUT">
+            <PatternLayout pattern="%traceId %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %-5p %logger - %msg%n" />
+        </Console>
+        <Console name="returnValueLogAppender" target="SYSTEM_OUT">
+            <PatternLayout pattern="%traceId %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %-5p %logger - %msg%n" />
+        </Console>
+    </Appenders>
+    <Loggers>
+        
+        <!-- 默认日志 -->
+        <Root level="info">
+            <AppenderRef ref="Console" />
+        </Root>
+
+        <!-- main 日志 -->
+        <logger name="com.orange.note" level="DEBUG" additivity="false">
+            <AppenderRef ref="mainAppender" />
+        </logger>
+
+        <!-- 开启 sql 日志 -->
+        <logger name="com.orange.note.dal.dao" level="DEBUG" additivity="false">
+            <AppenderRef ref="SqlAppender" />
+        </logger>
+
+        <logger name="RocketmqClient" level="warn" />
+        <logger name="RocketmqRemoting" level="warn" />
+
+        <logger name="main" level="DEBUG" />
+        <logger name="appbuz" level="DEBUG" />
+        <logger name="callback" level="DEBUG" />
+        <logger name="com.aliyun.oss" level="DEBUG" />
+        <logger name="crawlerpipe" level="DEBUG" />
+        <logger name="datafix" level="DEBUG" />
+        <logger name="migrate" level="DEBUG" />
+        <logger name="oss" level="DEBUG" />
+        <logger name="param" level="DEBUG" />
+        <logger name="search" level="DEBUG" />
+        <logger name="wordimport" level="DEBUG" />
+        <logger name="xiangpi" level="DEBUG" />
+        <logger name="pay" level="DEBUG" />
+
+        <!-- 性能监控日志 -->
+        <logger name="performance" additivity="false" level="INFO">
+            <appender-ref ref="performanceAppender"/>
+        </logger>
+
+        <!-- 监控数据日志 -->
+        <logger name="monitor" additivity="false" level="info">
+            <appender-ref ref="monitorAppender"/>
+        </logger>
+
+        <!-- 性能监控日志，com.orange.commons.web.spring.OrangePerformanceMonitorInterceptor 类 专用 -->
+        <logger name="orangePerformanceMonitor" additivity="false" level="INFO">
+            <appender-ref ref="newPerformanceAppender"/>
+        </logger>
+
+        <logger name="com.xxl.job" level="warn" />
+
+        <logger name="com.orange.commons.support.log4j2.TraceIdPatternConverter" additivity="false" level="info">
+            <appender-ref ref="traceIdAppender"/>
+        </logger>
+
+        <!-- RocketmqClient 日志 -->
+        <logger name="RocketmqClient" additivity="false" level="ERROR">
+            <appender-ref ref="mainAppender"/>
+        </logger>
+
+        <!-- 返回值日志类的 日志级别定义 -->
+        <logger name="com.orange.note.web.ReturnValueLogHandler" additivity="false" level="debug">
+            <appender-ref ref="returnValueLogAppender"/>
+        </logger>
+
+
+        <logger name="org.springframework" level="info" />
+
+        <logger name="org.apache.zookeeper" level="info" />
+        <logger name="com.alibaba.dubbo" level="info" />
+        <logger name="org.I0Itec.zkclient" level="info" />
+        <logger name="org.apache.velocity" level="info" />
+        <logger name="org.apache.commons.digester" level="info" />
+        <logger name="org.apache.http" level="info" />
+
+    </Loggers>
+</Configuration>
