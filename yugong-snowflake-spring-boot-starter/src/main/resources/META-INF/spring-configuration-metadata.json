@@ -1,0 +1,46 @@
+{
+  "groups": [
+    {
+      "name": "yg.snowflake.zookeeper",
+      "type": "org.yugong.snowflake.server.config.ZookeeperSnowflakeIdGeneratorProperties",
+      "sourceType": "org.yugong.snowflake.server.config.ZookeeperSnowflakeIdGeneratorProperties"
+    }
+  ],
+  "properties": [
+    {
+      "name": "yg.snowflake.zookeeper.enable",
+      "type": "java.lang.Boolean",
+      "sourceType": "org.yugong.snowflake.server.config.ZookeeperSnowflakeIdGeneratorProperties",
+      "defaultValue": false
+    },
+    {
+      "name": "yg.snowflake.zookeeper.machine-id-bit-numbers",
+      "type": "java.lang.Long",
+      "sourceType": "org.yugong.snowflake.server.config.ZookeeperSnowflakeIdGeneratorProperties",
+      "defaultValue": 0
+    },
+    {
+      "name": "yg.snowflake.zookeeper.namespace",
+      "type": "java.lang.String",
+      "sourceType": "org.yugong.snowflake.server.config.ZookeeperSnowflakeIdGeneratorProperties"
+    },
+    {
+      "name": "yg.snowflake.zookeeper.sequence-bit-numbers",
+      "type": "java.lang.Long",
+      "sourceType": "org.yugong.snowflake.server.config.ZookeeperSnowflakeIdGeneratorProperties",
+      "defaultValue": 0
+    },
+    {
+      "name": "yg.snowflake.zookeeper.start-time-millis",
+      "type": "java.lang.Long",
+      "sourceType": "org.yugong.snowflake.server.config.ZookeeperSnowflakeIdGeneratorProperties",
+      "defaultValue": 0
+    },
+    {
+      "name": "yg.snowflake.zookeeper.zk-address",
+      "type": "java.lang.String",
+      "sourceType": "org.yugong.snowflake.server.config.ZookeeperSnowflakeIdGeneratorProperties"
+    }
+  ],
+  "hints": []
+}
