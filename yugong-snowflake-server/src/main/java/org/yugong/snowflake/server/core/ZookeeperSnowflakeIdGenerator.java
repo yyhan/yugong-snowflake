@@ -107,15 +107,25 @@ public class ZookeeperSnowflakeIdGenerator extends AbstractSnowflakeIdGenerator 
         while (true) {
             // 首先判断节点是否存在
             if (!exists(dataCenterId, machineId)) {
-                // 尝试加锁
-                InterProcessSemaphoreMutex mutex = new InterProcessSemaphoreMutex(client, generateMachineIdLockNodeName(dataCenterId, machineId));
-                if (mutex.acquire(1000, TimeUnit.MILLISECONDS)) {
-                    // 注册机器Id
-                    client.create().creatingParentsIfNeeded().withMode(CreateMode.EPHEMERAL).forPath(generateMachineIdNodeName(dataCenterId, machineId));
+                InterProcessSemaphoreMutex mutex = null;
+                try {
+                    mutex = new InterProcessSemaphoreMutex(client, generateMachineIdLockNodeName(dataCenterId, machineId));
+                    // 尝试加锁
+                    if (mutex.acquire(1000, TimeUnit.MILLISECONDS)) {
+                        // 注册机器Id
+                        client.create().creatingParentsIfNeeded().withMode(CreateMode.EPHEMERAL).forPath(generateMachineIdNodeName(dataCenterId, machineId));
 
-                    // 释放锁
-                    mutex.release();
-                    break;
+                        // 释放锁
+                        mutex.release();
+                        break;
+                    }
+                } finally {
+                    if (mutex != null) {
+                        if (mutex.isAcquiredInThisProcess()) {
+                            // 释放锁
+                            mutex.release();
+                        }
+                    }
                 }
             }
             machineId++;
