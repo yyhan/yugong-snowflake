@@ -19,7 +19,7 @@
         <maven.deploy.skip>true</maven.deploy.skip>
 
         <springboot.version>2.1.4.RELEASE</springboot.version>
-        <log4j.version>2.13.3</log4j.version>
+        <log4j.version>2.15.0</log4j.version>
         <dubbo.version>2.7.4.1</dubbo.version>
     </properties>
 
